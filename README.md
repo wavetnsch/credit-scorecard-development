@@ -4,12 +4,29 @@ A complete credit scorecard development pipeline built with Python, following in
 
 ## Overview
 
-This project implements a logistic regression-based credit scorecard from end to end:
+This project implements a logistic regression-based credit scorecard from end to end, trained on the **Give Me Some Credit** dataset (Kaggle, 150,000 records, 6.7% default rate):
 
 1. **Exploratory Data Analysis** — portfolio composition, missing values, default rate analysis
 2. **Weight of Evidence (WoE) & Information Value (IV)** — feature transformation and selection
 3. **Scorecard Model** — logistic regression with PDO-based score scaling
 4. **Model Validation** — AUC, Gini, KS statistic, and Population Stability Index (PSI)
+
+## Dataset
+
+**Give Me Some Credit** — Kaggle 2011 competition dataset (consumer credit bureau data)
+
+| Feature | Description |
+|---------|-------------|
+| `age` | Borrower age in years |
+| `annual_income` | Annual gross income (USD) |
+| `credit_utilization` | Revolving credit utilization rate |
+| `num_delinquencies` | Total 30/60/90-day delinquency counts |
+| `num_credit_accounts` | Number of open credit lines and loans |
+| `debt_to_income` | Debt ratio (monthly obligations / income) |
+| `num_real_estate_loans` | Number of mortgage and real estate loans |
+| `num_dependents` | Number of dependents in family |
+
+**Target:** `SeriousDlqin2yrs` — serious delinquency within 2 years (1 = default)
 
 ## Methodology
 
@@ -49,7 +66,8 @@ Where:
 ```
 credit-scorecard-development/
 ├── src/
-│   ├── data_generator.py   # Synthetic credit data generation
+│   ├── data_loader.py      # Give Me Some Credit data loading and cleaning
+│   ├── data_generator.py   # Synthetic data (fallback / unit testing)
 │   ├── woe_iv.py           # WoE/IV calculation and binning
 │   ├── scorecard.py        # Logistic regression scorecard with PDO scaling
 │   └── validation.py       # KS, Gini, AUC, PSI metrics
@@ -59,7 +77,7 @@ credit-scorecard-development/
 │   ├── 03_scorecard_development.ipynb
 │   └── 04_model_validation.ipynb
 ├── plots/                  # Generated visualizations
-├── data/                   # Data directory (populated at runtime)
+├── data/                   # Data directory (add dataset here — see below)
 └── requirements.txt
 ```
 
@@ -73,18 +91,26 @@ cd credit-scorecard-development
 # Install dependencies
 pip install -r requirements.txt
 
+# Download dataset from Kaggle
+pip install kaggle
+# Place kaggle.json at ~/.kaggle/kaggle.json first
+kaggle datasets download -d brycecf/give-me-some-credit-dataset -p data/
+unzip data/give-me-some-credit-dataset.zip -d data/
+
 # Run notebooks in order
 jupyter notebook notebooks/
 ```
 
 ## Key Results
 
-The scorecard achieves strong discrimination on the synthetic dataset:
-
-- **AUC** ≈ 0.78–0.82 (train/test)
-- **Gini** ≈ 0.56–0.64
-- **KS** ≈ 0.42–0.50
-- **PSI** < 0.10 (stable population)
+| Metric | Value |
+|--------|-------|
+| Dataset | Give Me Some Credit (n = 150,000) |
+| Default Rate | 6.7% |
+| AUC | run notebooks |
+| Gini | run notebooks |
+| KS | run notebooks |
+| PSI | run notebooks |
 
 ## Technical Stack
 
