@@ -66,7 +66,7 @@ class CreditScorecard:
         ]
         return (
             pd.DataFrame(rows)
-            .sort_values("pts_per_woe", key=abs, ascending=False)
+            .sort_values("points_per_unit_woe", key=abs, ascending=False)
             .reset_index(drop=True)
         )
 
