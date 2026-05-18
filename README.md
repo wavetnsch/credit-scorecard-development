@@ -65,17 +65,13 @@ Where:
 
 ```
 credit-scorecard-development/
+├── a_score_model.ipynb     # End-to-end scorecard: EDA → WoE/IV → Model → Validation
 ├── src/
 │   ├── data_loader.py      # Give Me Some Credit data loading and cleaning
 │   ├── data_generator.py   # Synthetic data (fallback / unit testing)
 │   ├── woe_iv.py           # WoE/IV calculation and binning
 │   ├── scorecard.py        # Logistic regression scorecard with PDO scaling
 │   └── validation.py       # KS, Gini, AUC, PSI metrics
-├── notebooks/
-│   ├── 01_exploratory_data_analysis.ipynb
-│   ├── 02_woe_iv_analysis.ipynb
-│   ├── 03_scorecard_development.ipynb
-│   └── 04_model_validation.ipynb
 ├── plots/                  # Generated visualizations
 ├── data/                   # Data directory (add dataset here — see below)
 └── requirements.txt
@@ -97,20 +93,20 @@ pip install kaggle
 kaggle datasets download -d brycecf/give-me-some-credit-dataset -p data/
 unzip data/give-me-some-credit-dataset.zip -d data/
 
-# Run notebooks in order
-jupyter notebook notebooks/
+# Open the notebook
+jupyter notebook a_score_model.ipynb
 ```
 
 ## Key Results
 
-| Metric | Value |
-|--------|-------|
-| Dataset | Give Me Some Credit (n = 150,000) |
-| Default Rate | 6.7% |
-| AUC | run notebooks |
-| Gini | run notebooks |
-| KS | run notebooks |
-| PSI | run notebooks |
+| Metric | Value | Benchmark | Status |
+|--------|-------|-----------|--------|
+| Dataset | Give Me Some Credit (n = 150,000) | — | — |
+| Default Rate | 6.68% | — | — |
+| AUC-ROC | 0.8471 | > 0.70 | PASS |
+| Gini Coefficient | 0.6941 | > 0.40 | PASS |
+| KS Statistic | 0.5324 | > 0.30 | PASS |
+| PSI (stability) | 0.0005 | < 0.10 | PASS |
 
 ## Technical Stack
 
